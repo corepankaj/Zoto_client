@@ -4,6 +4,7 @@ import DashboardCards from './Component/DashboardCards';
 import CampaignForm from './Component/CampaignForm';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Router } from 'react-bootstrap-icons';
+import AllCampaigns from './Component/AllCampaigns';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -19,9 +20,10 @@ function App() {
           <DashboardCards/>
         </div>
         <Routes>
-         <Route path='/campaignform' element={<CampaignForm/>}/>
+          <Route path="/" element={<AllCampaigns/>}/>
+         <Route path="/campaignform" element={<CampaignForm />} />
         </Routes>
-      
+          
       </BrowserRouter>
     </>
   )

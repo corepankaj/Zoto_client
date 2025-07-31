@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Form, Button, Row, Col, Card } from 'react-bootstrap';
+import { Form, Button, Row, Col, Card,InputGroup } from 'react-bootstrap';
+import { BsClock, BsCalendar3 } from 'react-icons/bs';
 import Select from 'react-select';
 import axios from 'axios';
 
 function CampaignForm() {
- const [campaignName, setCampaignName] = useState('');
+  const [campaignName, setCampaignName] = useState('');
   const [campaignType, setCampaignType] = useState('');
   const [channels, setChannels] = useState([]);
   const [status, setStatus] = useState('Draft');
@@ -19,7 +20,7 @@ function CampaignForm() {
   const [endDate, setEndDate] = useState('');
   const [creatives, setCreatives] = useState([]);
 
-   const channelOptions = [
+  const channelOptions = [
     { value: 'email', label: 'Email' },
     { value: 'sms', label: 'SMS' },
     { value: 'metaAds', label: 'Meta Ads' },
@@ -42,8 +43,8 @@ function CampaignForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
 
+    const formData = new FormData();
     formData.append('campaignName', campaignName);
     formData.append('campaignType', campaignType);
     formData.append('status', status);
@@ -55,13 +56,13 @@ function CampaignForm() {
     formData.append('ctaLabel', ctaLabel);
     formData.append('startDate', startDate);
     formData.append('endDate', endDate);
-
-    channels.forEach((ch) => formData.append('channels[]', ch.value));
-    segments.forEach((seg) => formData.append('segments[]', seg.value));
+    formData.append('channels', JSON.stringify(channels.map(ch => ch.value)));
+    formData.append('segments', JSON.stringify(segments.map(seg => seg.value)));
+    
     creatives.forEach((file) => formData.append('creatives', file));
 
     try {
-      await axios.post('http://localhost:5000/api/campaigns', formData, {
+      await axios.post('https://zoto-backend-h34w.vercel.app/api/campaigns', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       alert('Campaign saved successfully!');
@@ -77,79 +78,72 @@ function CampaignForm() {
       <p className="text-muted">Set up your marketing campaign with all the necessary details</p>
 
       <Form onSubmit={handleSubmit}>
-        {/* Campaign Name and Type */}
         <Row className="mb-3">
           <Col md={6}>
             <Form.Group>
               <Form.Label>Campaign Name</Form.Label>
-              <Form.Control />
+              <Form.Control value={campaignName} onChange={(e) => setCampaignName(e.target.value)} />
             </Form.Group>
           </Col>
           <Col md={6}>
             <Form.Group>
               <Form.Label>Campaign Type</Form.Label>
-              <Form.Select>
-                <option>Select campaign type</option>
-                <option>Awareness</option>
-                <option>Engagement</option>
+              <Form.Select value={campaignType} onChange={(e) => setCampaignType(e.target.value)}>
+                <option value="">Select campaign type</option>
+                <option value="Awareness">Awareness</option>
+                <option value="Engagement">Engagement</option>
+                <option value="Retargeting">Retargeting</option>
+                <option value="Referral">Referral</option>
               </Form.Select>
             </Form.Group>
           </Col>
         </Row>
 
-        {/* Channels and Status */}
         <Row className="mb-3">
           <Col md={6}>
             <Form.Group>
               <Form.Label>Channel(s)</Form.Label>
-              <Select
-                isMulti
-                options={channelOptions}
-                value={channels}
-                onChange={setChannels}
-                placeholder="Select marketing channels"
-              />
+              <Select isMulti options={channelOptions} value={channels} onChange={setChannels} />
             </Form.Group>
           </Col>
           <Col md={6}>
             <Form.Group>
               <Form.Label>Status</Form.Label>
-              <Form.Select>
-                <option>Draft</option>
-                <option>Active</option>
-                <option>Paused</option>
+              <Form.Select value={status} onChange={(e) => setStatus(e.target.value)}>
+                <option value="Draft">Draft</option>
+                <option value="Scheduled">Scheduled</option>
+                <option value="Running">Running</option>
+                <option value="Paused">Paused</option>
+                <option value="Completed">Completed</option>
               </Form.Select>
             </Form.Group>
           </Col>
         </Row>
 
-        {/* Campaign Goal */}
         <Form.Group className="mb-3">
           <Form.Label>Campaign Goal</Form.Label>
-          <Form.Control as="textarea" rows={2} />
+          <Form.Control as="textarea" rows={2} value={goal} onChange={(e) => setGoal(e.target.value)} />
         </Form.Group>
-
-        {/* Target Audience */}
-        <hr />
-        <h5>🎯 Target Audience</h5>
 
         <Row className="mb-3">
           <Col md={6}>
             <Form.Group>
               <Form.Label>Audience Type</Form.Label>
-              <Form.Select>
-                <option>Sellers</option>
-                <option>Customers</option>
-                <option>Both</option>
+              <Form.Select value={audienceType} onChange={(e) => setAudienceType(e.target.value)}>
+                <option value="">Select</option>
+                <option value="Sellers">Sellers</option>
+                <option value="Customers">Customers</option>
+                <option value="Both">Both</option>
               </Form.Select>
             </Form.Group>
           </Col>
           <Col md={6}>
             <Form.Group>
               <Form.Label>Language Preference</Form.Label>
-              <Form.Select>
-                <option>English</option>
-                <option>Hindi</option>
+              <Form.Select value={language} onChange={(e) => setLanguage(e.target.value)}>
+                <option value="">Select</option>
+                <option value="English">English</option>
+                <option value="Hindi">Hindi</option>
               </Form.Select>
             </Form.Group>
           </Col>
@@ -157,73 +151,83 @@ function CampaignForm() {
 
         <Form.Group className="mb-3">
           <Form.Label>📍 Location Targeting</Form.Label>
-          <Form.Control />
+          <Form.Control value={location} onChange={(e) => setLocation(e.target.value)} />
         </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label>👥 User Segments</Form.Label>
-          <Select
-            isMulti
-            options={segmentOptions}
-            value={segments}
-            onChange={setSegments}
-            placeholder="Select user segments"
-          />
+          <Select isMulti options={segmentOptions} value={segments} onChange={setSegments} />
         </Form.Group>
-
-        {/* Content & Creative */}
-        <hr />
-        <h5>🎨 Content & Creative</h5>
 
         <Row className="mb-3">
           <Col md={6}>
             <Form.Group>
               <Form.Label>🔗 Landing Page URL</Form.Label>
-              <Form.Control />
+              <Form.Control value={landingPage} onChange={(e) => setLandingPage(e.target.value)} />
             </Form.Group>
           </Col>
           <Col md={6}>
             <Form.Group>
               <Form.Label>🎯 CTA Button Label</Form.Label>
-              <Form.Control />
+              <Form.Control value={ctaLabel} onChange={(e) => setCtaLabel(e.target.value)} />
             </Form.Group>
           </Col>
         </Row>
 
         <Form.Group className="mb-4">
           <Form.Label>📁 Upload Creatives</Form.Label>
-          <Form.Control type="file" multiple />
+          <Form.Control type="file" multiple onChange={handleFileChange} />
         </Form.Group>
-
-        {/* Scheduling */}
-        <hr />
-        <h5>📅 Campaign Scheduling</h5>
 
         <Row className="mb-3">
           <Col md={6}>
             <Form.Group>
-              <Form.Label>⏰ Start Date & Time</Form.Label>
-              <Form.Control type="datetime-local" />
+              <Form.Label htmlFor="startDate">
+                <BsClock className="me-2" /> Start Date & Time
+              </Form.Label>
+              <InputGroup>
+                <InputGroup.Text>
+                  <BsCalendar3 />
+                </InputGroup.Text>
+                <Form.Control
+                  id="startDate"
+                  type="datetime-local"
+                  placeholder="Select start date and time"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  onFocus={(e) => e.target.showPicker && e.target.showPicker()}
+                />
+              </InputGroup>
             </Form.Group>
           </Col>
+
           <Col md={6}>
             <Form.Group>
-              <Form.Label>⏰ End Date & Time</Form.Label>
-              <Form.Control type="datetime-local" />
+              <Form.Label htmlFor="endDate">
+                <BsClock className="me-2" /> End Date & Time
+              </Form.Label>
+              <InputGroup>
+                <InputGroup.Text>
+                  <BsCalendar3 />
+                </InputGroup.Text>
+                <Form.Control
+                  id="endDate"
+                  type="datetime-local"
+                  placeholder="Select end date and time"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  onFocus={(e) => e.target.showPicker && e.target.showPicker()}
+                  disabled={!startDate} // disables until start date is selected
+                />
+              </InputGroup>
+              {!startDate && (
+                <small className="text-muted">Please select a start date first</small>
+              )}
             </Form.Group>
           </Col>
         </Row>
 
-        <Form.Group className="mb-4">
-          <Form.Check type="switch" label="Enable Recurring Campaign" />
-        </Form.Group>
-
-        {/* Action Buttons */}
-        <div className="d-flex gap-3">
-          <Button type="submit" variant="primary">Create Campaign</Button>
-          <Button variant="outline-secondary">Preview Campaign</Button>
-          <Button variant="light">Cancel</Button>
-        </div>
+        <Button type="submit" variant="primary">Create Campaign</Button>
       </Form>
     </Card>
   );

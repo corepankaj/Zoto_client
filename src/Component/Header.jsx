@@ -19,10 +19,13 @@ function Header() {
           </Col>
 
           {/* Center Section - Logo */}
+          
           <Col md={4} className="text-center">
+          <Link to={"/"}>
             <img src={Logo} alt="Logo" style={{ maxHeight: '50px' }} />
+            </Link>
           </Col>
-
+          
           {/* Right Section - Button */}
           <Col md={4} className="text-end">
            <Link to={"/campaignform"}>
