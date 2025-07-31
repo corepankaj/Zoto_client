@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import Header from './Component/Header';
-import DashboardCards from './Component/DashboardCards';
-import CampaignForm from './Component/CampaignForm';
+import Header from './Header';
+import DashboardCards from './DashboardCards';
+import CampaignForm from './CampaignForm';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Router } from 'react-bootstrap-icons';
-import AllCampaigns from './Component/AllCampaigns';
+import AllCampaigns from './AllCampaigns';
 
 function App() {
   const [count, setCount] = useState(0)

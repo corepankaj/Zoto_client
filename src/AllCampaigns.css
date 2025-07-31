@@ -1,0 +1,63 @@
+.campaign-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  width: 97%;
+  margin: auto;
+  margin-top: 1%;
+}
+
+.campaign-title {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.campaign-subtitle {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.campaign-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.campaign-table th {
+  text-align: left;
+  font-weight: 600;
+  padding: 10px 0;
+  border-bottom: 2px solid #eee;
+}
+
+.campaign-table td {
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+}
+
+.chip {
+  display: inline-block;
+  background: #f3f3f3;
+  padding: 4px 10px;
+  margin: 2px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.status-badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-badge.running {
+  background: #d4f8d4;
+  color: #227a22;
+}
+
+.status-badge.scheduled {
+  background: #e0ebff;
+  color: #2a5bd7;
+}
