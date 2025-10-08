@@ -52,19 +52,27 @@ function AllCampaigns() {
               </td>
               <td>
                 <span className="chip">{item.audienceType}</span>
+                <span className="chip">{item.language}</span><br></br>
+                <span className="chip" id="location_tab">{item.location}</span><br></br>
+                <span className="chip">{item.segments[0]}</span>
+                <span className="chip">{item.segments[1]}</span>
+                <span className="chip">{item.segments[2]}</span>
               </td>
               <td>
-                {new Date(item.startDate).toLocaleDateString('en-GB', {
+               <span className="dateValue">{new Date(item.startDate).toLocaleDateString('en-GB', {
                 day: '2-digit',
                 month: 'short',
                 year: 'numeric'
-                })} 
+                })} </span>  
+
                 - 
+                
+                <span className="dateValue">
                 {new Date(item.endDate).toLocaleDateString('en-GB', {
                 day: '2-digit',
                 month: 'short',
                 year: 'numeric'
-                })}
+                })}</span>
                 </td>
                             <td>
                 <span className={`status-badge ${item.status.toLowerCase()}`}>
@@ -72,11 +80,11 @@ function AllCampaigns() {
                 </span>
               </td>
               <td>
-                {new Date(item.createdAt).toLocaleDateString('en-GB', {
+                <span className="dateValue">{new Date(item.createdAt).toLocaleDateString('en-GB', {
                 day: '2-digit',
                 month: 'short',
                 year: 'numeric'
-                })} 
+                })} </span>
               </td>
             </tr>
           ))}

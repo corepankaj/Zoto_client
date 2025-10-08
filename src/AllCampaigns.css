@@ -21,6 +21,14 @@
 .campaign-table {
   width: 100%;
   border-collapse: collapse;
+  font-size: 12px;
+  font-weight: 500;
+}
+#location_tab{
+  font-weight: 100;
+}
+.dateValue{
+  font-weight: 100;
 }
 
 .campaign-table th {
@@ -42,7 +50,7 @@
   padding: 4px 10px;
   margin: 2px;
   border-radius: 20px;
-  font-size: 12px;
+  font-size: 10px;
 }
 
 .status-badge {
